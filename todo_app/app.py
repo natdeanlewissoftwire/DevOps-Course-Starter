@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, add_item, get_item, save_item
+from todo_app.data.session_items import get_items, add_item, get_item, save_item, delete_item
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -33,7 +33,14 @@ def edit():
     title = request.form.get('title')
     item_id = request.form.get('item_id')
     if title and item_id:
-            item = get_item(item_id)
-            item['title'] = title
-            save_item(item)
+        item = get_item(item_id)
+        item['title'] = title
+        save_item(item)
+    return redirect(url_for('index'))
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    item_id = request.form.get('item_id')
+    if item_id:
+        delete_item(item_id)
     return redirect(url_for('index'))
