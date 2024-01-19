@@ -15,6 +15,10 @@
           <li>{{saved_item.title}}</li>
         {% endfor %}
       </ul>
+      <form method="post">
+        <p><input type=text name=title>
+        <p><input type=submit value="Add item">
+      </form>
     </div>
   </div>
 {% endblock %}
