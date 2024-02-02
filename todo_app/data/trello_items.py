@@ -15,3 +15,6 @@ def get_items():
 
 def list_items(result_json, list_id):
     return [list['cards'] for list in result_json if list['id'] == list_id][0]
+
+def add_item(title):
+    requests.post(f'https://api.trello.com/1/cards?idList={trello_incompleted_list_id}&name={title}&{trello_board_id}&key={trello_api_key}&token={trello_api_token}')
