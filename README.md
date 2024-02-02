@@ -41,12 +41,13 @@ The `.env` file is used by flask to set environment variables when running `flas
 ## Environment variables
 
 For local development:
-    1. [Create a Trello account](https://trello.com/signup)
-    2. Make a Trello Board for local development and save its ID in .env as TRELLO_BOARD_ID
-    3. [Create an API Key for Trello](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/#managing-your-api-key)
+    - [Create a Trello account](https://trello.com/signup)
+    - Make a Trello Board for local development and save its ID in .env as TRELLO_BOARD_ID
+    - Make a "to do" list in your board and assign its ID as TRELLO_INCOMPLETED_LIST_ID, and a "completed" list and assign its ID as TRELLO_COMPLETED_LIST_ID
+    - [Create an API Key for Trello](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/#managing-your-api-key)
         To do this you’ll first need to create a Trello Power Up (from [this page](https://trello.com/power-ups/admin)) for the workspace your board is in
         After creating a Trello Power Up you’ll be given the option to generate a new API key
-    4. Create an API Token for Trello.
+    - Create an API Token for Trello.
         This can be done by clicking the “Token” link on the same page where your API key is displayed
 
 Once generated save your API Key and API Token in .env as TRELLO_API_KEY and TRELLO_API_TOKEN respectively

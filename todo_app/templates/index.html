@@ -20,7 +20,7 @@
             </form>
           </div>
             <form method="post" action="{{ url_for('edit') }}" class="form-control">
-              <input type="text" class="form-control" value="{{item.title}}" name="title">
+              <input type="text" class="form-control" value="{{item.name}}" name="title">
               <input type="hidden" name="item_id" value="{{ item.id }}">
             </form>
           <div class="input-group-text">
@@ -43,7 +43,7 @@
               </form>
             </div>
               <form method="post" action="{{ url_for('edit') }}" class="form-control">
-                <input type="text" class="form-control" value="{{item.title}}" name="title" style="text-decoration: line-through;">
+                <input type="text" class="form-control" value="{{item.name}}" name="title" style="text-decoration: line-through;">
                 <input type="hidden" name="item_id" value="{{ item.id }}">
               </form>
               <div class="input-group-text">

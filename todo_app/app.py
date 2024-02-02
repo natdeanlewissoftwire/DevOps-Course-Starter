@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, add_item, get_item, save_item, delete_item
+from todo_app.data.session_items import add_item, get_item, save_item, delete_item
+from todo_app.data.trello_items import get_items
 
 app = Flask(__name__)
 app.config.from_object(Config())
@@ -8,9 +9,8 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     saved_items = get_items()
-    incompleted_items = [item for item in saved_items if item['completed'] == False]
-    completed_items = [item for item in saved_items if item['completed'] == True]
-    return render_template('index.html', incompleted_items=incompleted_items, completed_items=completed_items)
+    print(saved_items['incompleted_items'])
+    return render_template('index.html', incompleted_items=saved_items['incompleted_items'], completed_items=saved_items['completed_items'])
 
 @app.route('/add', methods=['POST'])
 def add():
