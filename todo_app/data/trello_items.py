@@ -28,5 +28,7 @@ def update_status(card_id, current_status):
             list_id = trello_incompleted_list_id
         case "incompleted":
             list_id = trello_completed_list_id
-    print(list_id)
     requests.put(f'https://api.trello.com/1/cards/{card_id}?idList={list_id}&key={trello_api_key}&token={trello_api_token}')
+
+def delete_item(card_id):
+    requests.delete(f'https://api.trello.com/1/cards/{card_id}?key={trello_api_key}&token={trello_api_token}')
