@@ -8,7 +8,7 @@ app.config.from_object(Config())
 @app.route('/')
 def index():
     saved_items = get_items()
-    return render_template('index.html', incompleted_items=saved_items['incompleted_items'], completed_items=saved_items['completed_items'])
+    return render_template('index.html', incomplete_items=saved_items['incomplete_items'], completed_items=saved_items['completed_items'])
 
 @app.route('/add', methods=['POST'])
 def add():

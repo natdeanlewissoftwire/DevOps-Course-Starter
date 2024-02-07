@@ -9,15 +9,15 @@
 
   <div class="row">
     <div class="col-md-12">
-      {% if incompleted_items %}
+      {% if incomplete_items %}
         <h4>Tasks</h4>
-        {% for item in incompleted_items %}
+        {% for item in incomplete_items %}
         <div class="input-group mb-2">
           <div class="input-group-text">
             <form method="post" action="{{ url_for('complete') }}">
               <input class="form-check-input" type="checkbox" onchange="this.form.submit()">
               <input type="hidden" name="item_id" value="{{ item.id }}">
-              <input type="hidden" name="status" value="incompleted">
+              <input type="hidden" name="status" value="incomplete">
             </form>
           </div>
             <form method="post" action="{{ url_for('edit') }}" class="form-control">
