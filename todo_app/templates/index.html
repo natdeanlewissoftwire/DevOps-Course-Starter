@@ -12,49 +12,17 @@
       {% if incomplete_items %}
         <h4>Tasks</h4>
         {% for item in incomplete_items %}
-        <div class="input-group mb-2">
-          <div class="input-group-text">
-            <form method="post" action="{{ url_for('complete') }}">
-              <input class="form-check-input" type="checkbox" onchange="this.form.submit()">
-              <input type="hidden" name="item_id" value="{{ item.id }}">
-              <input type="hidden" name="status" value="incomplete">
-            </form>
-          </div>
-            <form method="post" action="{{ url_for('edit') }}" class="form-control">
-              <input type="text" class="form-control" value="{{item.name}}" name="title" onblur="this.form.submit()">
-              <input type="hidden" name="item_id" value="{{ item.id }}">
-            </form>
-          <div class="input-group-text">
-            <form method="post" action="{{ url_for('delete') }}">
-              <button class="btn btn-danger" type="submit">Delete</button>
-              <input type="hidden" name="item_id" value="{{ item.id }}">
-            </form>
-          </div>
-        </div>
+          {% with status='incomplete' %}
+            {% include 'item.html' %}
+          {% endwith %}
         {% endfor %}
       {% endif %}
       {% if completed_items %}
         <h4>Completed</h4>
         {% for item in completed_items %}
-          <div class="input-group mb-2">
-            <div class="input-group-text">
-              <form method="post" action="{{ url_for('complete') }}">
-                <input class="form-check-input" type="checkbox" onchange="this.form.submit()" checked="checked">
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-                <input type="hidden" name="status" value="completed">
-              </form>
-            </div>
-              <form method="post" action="{{ url_for('edit') }}" class="form-control">
-                <input type="text" class="form-control" value="{{item.name}}" name="title"  onblur="this.form.submit()" style="text-decoration: line-through;">
-                <input type="hidden" name="item_id" value="{{ item.id }}">
-              </form>
-              <div class="input-group-text">
-                <form method="post" action="{{ url_for('delete') }}">
-                  <button class="btn btn-danger" type="submit">Delete</button>
-                  <input type="hidden" name="item_id" value="{{ item.id }}">
-                </form>
-              </div>
-              </div>
+          {% with status='completed' %}
+            {% include 'item.html' %}
+          {% endwith %}
         {% endfor %}
       {% endif %}
       <br>
