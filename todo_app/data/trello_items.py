@@ -1,5 +1,5 @@
 import requests, os, urllib.parse
-
+from todo_app.item import Item
 trello_api_key = os.getenv('TRELLO_API_KEY')
 trello_api_token = os.getenv('TRELLO_API_TOKEN')
 trello_board_id = os.getenv('TRELLO_BOARD_ID')
@@ -18,8 +18,7 @@ def make_request(method, endpoint, params=None):
 def get_items():
     endpoint = f'boards/{trello_board_id}/lists'
     response_json = make_request("GET", endpoint, {'cards': 'open'})
-    incomplete_and_completed_items = {'incomplete_items': list_items(response_json, trello_incomplete_list_id), 'completed_items': list_items(response_json, trello_completed_list_id)}
-    return incomplete_and_completed_items
+    return [Item.from_trello_card(card, list) for list in response_json for card in list['cards']]
 
 def add_item(title):
     endpoint = 'cards'
@@ -44,6 +43,3 @@ def update_status(card_id, current_status):
 def delete_item(card_id):
     endpoint = f'cards/{card_id}'
     make_request("DELETE", endpoint)
-
-def list_items(response_json, list_id):
-    return [list['cards'] for list in response_json if list['id'] == list_id][0]
