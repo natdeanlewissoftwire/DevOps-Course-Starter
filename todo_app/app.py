@@ -1,16 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for
 from todo_app.flask_config import Config
 from todo_app.data.trello_items import get_items, add_item, update_name, update_status, delete_item
+from todo_app.view_model import ViewModel
 
 app = Flask(__name__)
 app.config.from_object(Config())
 
 @app.route('/')
 def index():
-    saved_items = get_items()
-    incomplete_items = [item for item in saved_items if item.status == 'To Do']
-    completed_items = [item for item in saved_items if item.status == 'Done']
-    return render_template('index.html', incomplete_items=incomplete_items, completed_items=completed_items)
+    items = get_items()
+    item_view_model = ViewModel(items)
+    return render_template('index.html', view_model=item_view_model)
 
 @app.route('/add', methods=['POST'])
 def add():
