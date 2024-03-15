@@ -71,3 +71,14 @@ Press CTRL+C to quit
  * Debugger PIN: 113-666-066
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Local testing
+To run the tests, run the following in a terminal:
+```bash
+$ pytest
+```
+
+To run an individual test file/test, specify its path as a pytest argument, e.g.:
+```bash
+$ pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
+```
