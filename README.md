@@ -71,3 +71,15 @@ Press CTRL+C to quit
  * Debugger PIN: 113-666-066
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Local testing
+To run the tests, run the following in a terminal:
+```bash
+$ poetry run pytest
+```
+
+To run an individual test file/test, specify its path as a pytest argument, e.g.:
+```bash
+$ poetry run pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
+```
+Integration and unit tests are in todo_app/tests, end-to-end tests are in todo_app/tests_e2e

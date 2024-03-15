@@ -9,17 +9,17 @@
 
   <div class="row">
     <div class="col-md-12">
-      {% if incomplete_items %}
+      {% if view_model.incomplete_items %}
         <h4>Tasks</h4>
-        {% for item in incomplete_items %}
+        {% for item in view_model.incomplete_items %}
           {% with status='incomplete' %}
             {% include 'item.html' %}
           {% endwith %}
         {% endfor %}
       {% endif %}
-      {% if completed_items %}
+      {% if view_model.completed_items %}
         <h4>Completed</h4>
-        {% for item in completed_items %}
+        {% for item in view_model.completed_items %}
           {% with status='completed' %}
             {% include 'item.html' %}
           {% endwith %}
