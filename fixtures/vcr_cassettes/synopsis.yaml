@@ -1,0 +1,113 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Connection:
+      - close
+      Host:
+      - api.trello.com
+      User-Agent:
+      - Python-urllib/3.12
+    method: GET
+    uri: https://api.trello.com/1/boards/REDACTED/lists?key=REDACTED&token=REDACTED&cards=open
+  response:
+    body:
+      string: '[{"id":"REDACTED","name":"To Do","closed":false,"color":null,"idBoard":"REDACTED","pos":16384,"subscribed":false,"softLimit":null,"cards":[{"id":"REDACTED","badges":{"attachmentsByType":{"trello":{"board":0,"card":0}},"location":false,"votes":0,"viewingMemberVoted":false,"subscribed":false,"fogbugz":"","checkItems":0,"checkItemsChecked":0,"checkItemsEarliestDue":null,"comments":0,"attachments":0,"description":false,"due":null,"dueComplete":false,"start":null},"checkItemStates":[],"closed":false,"dueComplete":false,"dateLastActivity":"2024-03-15T15:11:05.958Z","desc":"","descData":{"emoji":{}},"due":null,"dueReminder":null,"email":null,"idBoard":"REDACTED","idChecklists":[],"idList":"REDACTED","idMembers":[],"idMembersVoted":[],"idShort":REDACTED,"idAttachmentCover":null,"labels":[],"idLabels":[],"manualCoverAttachment":false,"name":"Test
+        card","pos":32768,"shortLink":"REDACTED","shortUrl":"https://trello.com/c/REDACTED","start":null,"subscribed":false,"url":"https://trello.com/c/REDACTED/59-test-card","cover":{"idAttachment":null,"color":null,"idUploadedBackground":null,"size":"normal","brightness":"dark","idPlugin":null},"isTemplate":false,"cardRole":null}]},{"id":"REDACTED","name":"Done","closed":false,"color":null,"idBoard":"REDACTED","pos":49152,"subscribed":false,"softLimit":null,"cards":[]}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Accept, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, PUT, POST, DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - x-rate-limit-api-key-interval-ms, x-rate-limit-api-key-max, x-rate-limit-api-key-remaining,
+        x-rate-limit-api-token-interval-ms, x-rate-limit-api-token-max, x-rate-limit-api-token-remaining
+      Atl-Traceid:
+      - b96dc54859954377a52d150290d7068a
+      Cache-Control:
+      - max-age=0, must-revalidate, no-cache, no-store
+      Connection:
+      - close
+      Content-Length:
+      - '1424'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 15 Mar 2024 15:15:20 GMT
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00
+      Nel:
+      - '{"failure_fraction": 0.001, "include_subdomains": true, "max_age": 600, "report_to":
+        "endpoint-1"}'
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"endpoints": [{"url": "https://dz8aopenkvv6s.cloudfront.net"}], "group":
+        "endpoint-1", "include_subdomains": true, "max_age": 600}'
+      Server:
+      - AtlassianEdge
+      Set-Cookie:
+      - dsc=63fb53c035312bde747c63108bcb6839bfdcec8446cabbe047ba5c9ff03e92f3; Path=/;
+        Expires=Fri, 29 Mar 2024 15:15:20 GMT; Secure; SameSite=None
+      Strict-Transport-Security:
+      - max-age=63072000; preload
+      Surrogate-Control:
+      - no-store
+      Via:
+      - 1.1 038af4146dbc9a4849948fa23bab14ec.cloudfront.net (CloudFront)
+      X-Amz-Cf-Id:
+      - m49tBi9VjuVs9hWC2T6Dk1UrKKMfD-NUHsCsMhqHIAsVw4T_6LRWwg==
+      X-Amz-Cf-Pop:
+      - LHR5-P7
+      X-Cache:
+      - Miss from cloudfront
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Rate-Limit-Api-Key-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Api-Key-Max:
+      - '300'
+      X-Rate-Limit-Api-Key-Remaining:
+      - '299'
+      X-Rate-Limit-Api-Token-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Api-Token-Max:
+      - '100'
+      X-Rate-Limit-Api-Token-Remaining:
+      - '99'
+      X-Rate-Limit-Db-Query-Time-Interval-Ms:
+      - '600000'
+      X-Rate-Limit-Db-Query-Time-Max:
+      - '7200000'
+      X-Rate-Limit-Db-Query-Time-Remaining:
+      - '7199990'
+      X-Rate-Limit-Member-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Member-Max:
+      - '375'
+      X-Rate-Limit-Member-Remaining:
+      - '374'
+      X-Server-Time:
+      - '1710515720775'
+      X-Trello-Actual-Fastget-Path:
+      - fast
+      X-Trello-Environment:
+      - Production
+      X-Trello-Version:
+      - 1.263981.0
+      X-Xss-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1
