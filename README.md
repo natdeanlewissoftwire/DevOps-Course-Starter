@@ -82,3 +82,4 @@ To run an individual test file/test, specify its path as a pytest argument, e.g.
 ```bash
 $ poetry run pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
 ```
+Integration and unit tests are in todo_app/tests, end-to-end tests are in todo_app/tests_e2e
