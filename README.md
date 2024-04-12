@@ -52,6 +52,8 @@ For local development:
 
 Once generated save your API Key and API Token in .env as TRELLO_API_KEY and TRELLO_API_TOKEN respectively
 
+Also, save your trello organisation id under ID_ORGANIZATION in .env
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
@@ -71,3 +73,15 @@ Press CTRL+C to quit
  * Debugger PIN: 113-666-066
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Local testing
+To run the tests, run the following in a terminal:
+```bash
+$ poetry run pytest
+```
+
+To run an individual test file/test, specify its path as a pytest argument, e.g.:
+```bash
+$ poetry run pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
+```
+Integration and unit tests are in todo_app/tests, end-to-end tests are in todo_app/tests_e2e
