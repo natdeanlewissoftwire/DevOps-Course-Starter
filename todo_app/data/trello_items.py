@@ -10,7 +10,7 @@ def make_request(method, endpoint, params=None):
     return response.json()
 
 def get_items():
-    endpoint = f'boards/{os.getenv('TRELLO_BOARD_ID')}/lists'
+    endpoint = f'boards/{os.getenv("TRELLO_BOARD_ID")}/lists'
     response_json = make_request("GET", endpoint, {'cards': 'open'})
     return [Item.from_trello_card(card, list) for list in response_json for card in list['cards']]
 

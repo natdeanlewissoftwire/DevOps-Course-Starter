@@ -1,4 +1,4 @@
-import pytest, requests, os
+import pytest, requests, os, json
 from dotenv import load_dotenv, find_dotenv
 from todo_app import app
 import vcr
@@ -6,7 +6,7 @@ import urllib.request
 
 @pytest.fixture
 def client():
-    file_path = find_dotenv('.env')
+    file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
 
     test_app = app.create_app()
@@ -28,12 +28,14 @@ def stub(method, url, params={}):
     trello_board_id = os.environ.get('TRELLO_BOARD_ID')
 
     if url == f'https://api.trello.com/1/boards/{test_board_id}/lists' and method == "GET":
-        with vcr.use_cassette('fixtures/vcr_cassettes/synopsis.yaml'):
-            vcr_response_data = urllib.request.urlopen(f'https://api.trello.com/1/boards/{trello_board_id}/lists?key={trello_api_key}&token={trello_api_token}&cards=open').read()
-        return StubResponse(vcr_response_data)
+        with vcr.use_cassette('fixtures/vcr_cassettes/synopsis.yaml', filter_query_parameters=['key', 'token']):
+            resource = urllib.request.urlopen(f'https://api.trello.com/1/boards/{trello_board_id}/lists?key={trello_api_key}&token={trello_api_token}&cards=open')
+            vcr_response_data = resource.read().decode('utf-8')
+        return StubResponse(json.loads(vcr_response_data))
     raise Exception(f'Integration test did not expect URL "{url}"')
 
 def test_index_page_gets_items(monkeypatch, client):
+    monkeypatch.setattr(requests, 'request', stub)
     response = client.get('/')
 
     assert response.status_code == 200

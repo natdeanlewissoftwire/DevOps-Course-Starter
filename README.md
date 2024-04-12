@@ -52,6 +52,8 @@ For local development:
 
 Once generated save your API Key and API Token in .env as TRELLO_API_KEY and TRELLO_API_TOKEN respectively
 
+Also, save your trello organisation id under ID_ORGANIZATION in .env
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:

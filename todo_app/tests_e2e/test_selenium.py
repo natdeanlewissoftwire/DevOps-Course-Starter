@@ -27,7 +27,7 @@ def app_with_temp_board():
     delete_trello_board(board_id)
 
 def create_trello_board():
-    response = make_request("POST", 'boards', {'name': "Test Board", "idOrganization": "wicrosofttodo"})
+    response = make_request("POST", 'boards', {'name': "Test Board", "idOrganization": os.environ['ID_ORGANIZATION']})
     return response["id"]
 
 def delete_trello_board(board_id):
