@@ -1,0 +1,17 @@
+- name: Install To-Do App on new web servers
+  hosts: webservers
+  remote_user: ec2-user
+
+  tasks:
+  - name: Install git and python3
+    ansible.builtin.yum:
+      name: 
+        - git
+        - python3
+      state: present
+    become: yes
+    
+  - name: Install poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      creates: poetry_installed.txt
