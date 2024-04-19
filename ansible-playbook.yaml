@@ -12,6 +12,19 @@
     become: yes
     
   - name: Install poetry
-    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 - >> poetry_installed.txt
     args:
       creates: poetry_installed.txt
+
+  - name: Create directory for the To-Do App code
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: 'ec2-user'
+    become: yes
+
+  - name: Get the latest version of the To-Do App code
+    ansible.builtin.git:
+      repo: 'https://github.com/natdeanlewissoftwire/DevOps-Course-Starter.git'
+      dest: /opt/todoapp
+      version: exercise-4
