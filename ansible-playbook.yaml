@@ -1,12 +1,6 @@
 - name: Install To-Do App on new web servers
   hosts: webservers
   remote_user: ec2-user
-  vars_prompt:
-    - name: trello_api_key
-      prompt: Enter TRELLO_API_KEY
-
-    - name: trello_api_token
-      prompt: Enter TRELLO_API_TOKEN
 
   tasks:
   - name: Install git and python3.11
