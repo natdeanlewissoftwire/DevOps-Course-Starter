@@ -1,13 +1,19 @@
 - name: Install To-Do App on new web servers
   hosts: webservers
   remote_user: ec2-user
+  vars_prompt:
+    - name: trello_api_key
+      prompt: Enter TRELLO_API_KEY
+
+    - name: trello_api_token
+      prompt: Enter TRELLO_API_TOKEN
 
   tasks:
-  - name: Install git and python3
+  - name: Install git and python3.11
     ansible.builtin.yum:
       name: 
         - git
-        - python3
+        - python311
       state: present
     become: yes
     
@@ -28,3 +34,32 @@
       repo: 'https://github.com/natdeanlewissoftwire/DevOps-Course-Starter.git'
       dest: /opt/todoapp
       version: exercise-4
+
+  - name: Reference python3.11
+    ansible.builtin.shell: /home/ec2-user/.local/bin/poetry env use python3.11 >> python3_11_referenced.txt
+    args:
+      chdir: /opt/todoapp
+      creates: python3_11_referenced.txt
+
+  - name: Install project dependencies
+    ansible.builtin.command: /home/ec2-user/.local/bin/poetry install
+    args:
+      chdir: /opt/todoapp
+      
+  - name: Create a .env file
+    ansible.builtin.template:
+      src: .env.j2
+      dest: /opt/todoapp/.env
+    
+  - name: Copy todoapp.service to the host
+    ansible.builtin.copy:
+      src: todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+    become: yes
+
+  - name: Start the To-Do App
+    ansible.builtin.systemd:
+      name: todoapp
+      daemon_reload: true
+      state: restarted
+    become: yes
