@@ -2,10 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from todo_app.flask_config import Config
 from todo_app.data.trello_items import get_items, add_item, update_name, update_status, delete_item
 from todo_app.view_model import ViewModel
-from dotenv import load_dotenv
 
 def create_app(environ=None, start_response=None):
-    load_dotenv()
     app = Flask(__name__)
     app.config.from_object(Config())
 
