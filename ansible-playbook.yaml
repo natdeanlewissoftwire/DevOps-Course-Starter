@@ -51,6 +51,12 @@
       dest: /etc/systemd/system/todoapp.service
     become: yes
 
+  - name: Copy todoapp.socket to the host
+    ansible.builtin.copy:
+      src: todoapp.socket
+      dest: /etc/systemd/system/todoapp.socket
+    become: yes
+
   - name: Start the To-Do App
     ansible.builtin.systemd:
       name: todoapp
