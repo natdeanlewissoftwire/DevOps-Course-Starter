@@ -4,5 +4,5 @@ Description=My To-Do App
 [Service]
 User=ec2-user
 WorkingDirectory=/opt/todoapp
-EnvironmentFile=/home/ec2-user/.env.j2
+EnvironmentFile=/opt/todoapp/.env.j2
 ExecStart=/home/ec2-user/.local/bin/poetry run gunicorn -b 0.0.0.0:8000 'todo_app.app:create_app()' --access-logfile /home/ec2-user/access-logs.txt --error-logfile /home/ec2-user/error-logs.txt
