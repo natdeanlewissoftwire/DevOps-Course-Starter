@@ -1,0 +1,65 @@
+- name: Install To-Do App on new web servers
+  hosts: webservers
+  remote_user: ec2-user
+
+  tasks:
+  - name: Install git and python3.11
+    ansible.builtin.yum:
+      name: 
+        - git
+        - python311
+      state: present
+    become: yes
+    
+  - name: Install poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 - >> poetry_installed.txt
+    args:
+      creates: poetry_installed.txt
+
+  - name: Create directory for the To-Do App code
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: 'ec2-user'
+    become: yes
+
+  - name: Get the latest version of the To-Do App code
+    ansible.builtin.git:
+      repo: 'https://github.com/natdeanlewissoftwire/DevOps-Course-Starter.git'
+      dest: /opt/todoapp
+      version: exercise-4
+
+  - name: Reference python3.11
+    ansible.builtin.shell: /home/ec2-user/.local/bin/poetry env use python3.11 >> python3_11_referenced.txt
+    args:
+      chdir: /opt/todoapp
+      creates: python3_11_referenced.txt
+
+  - name: Install project dependencies
+    ansible.builtin.command: /home/ec2-user/.local/bin/poetry install
+    args:
+      chdir: /opt/todoapp
+      
+  - name: Create a .env file
+    ansible.builtin.template:
+      src: .env.j2
+      dest: /opt/todoapp/.env
+    
+  - name: Copy todoapp.service to the host
+    ansible.builtin.copy:
+      src: todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+    become: yes
+
+  - name: Copy todoapp.socket to the host
+    ansible.builtin.copy:
+      src: todoapp.socket
+      dest: /etc/systemd/system/todoapp.socket
+    become: yes
+
+  - name: Start the To-Do App
+    ansible.builtin.systemd:
+      name: todoapp
+      daemon_reload: true
+      state: restarted
+    become: yes

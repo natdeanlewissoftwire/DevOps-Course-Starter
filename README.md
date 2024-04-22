@@ -85,3 +85,15 @@ To run an individual test file/test, specify its path as a pytest argument, e.g.
 $ poetry run pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
 ```
 Integration and unit tests are in todo_app/tests, end-to-end tests are in todo_app/tests_e2e
+
+## Ansible
+To provision a VM, first ensure .env.j2, ansible-inventory.ini, ansible-playbook.yaml and todoapp.service are all on the control node. Populate .env.j2 with your environment variables on the control node and encrypt the file with 
+```bash
+$ ansible-vault encrypt .env.j2
+```
+Save the password this requires you to create somewhere secure for later use.
+
+Then run the following command from the control node, entering your password when prompted:
+```bash
+$ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
+```
