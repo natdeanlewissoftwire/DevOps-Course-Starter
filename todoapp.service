@@ -5,4 +5,5 @@ Requires=todoapp.socket
 [Service]
 User=ec2-user
 WorkingDirectory=/opt/todoapp
+EnvironmentFile=/opt/todoapp/.env
 ExecStart=/home/ec2-user/.local/bin/poetry run gunicorn -b 0.0.0.0:80 'todo_app.app:create_app()' --access-logfile access-logs.txt --error-logfile error-logs.txt
