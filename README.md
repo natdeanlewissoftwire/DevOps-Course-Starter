@@ -117,5 +117,5 @@ docker run --env-file .env -p 80:80 todo-app:prod
 
 dev (with hot reloading):
 ```bash
-docker run --env-file .env -p 5000:5000 --mount "type=bind,source=$(pwd)/todo_app,target=/app/todo_app" todo-app:dev
+docker run --env-file .env -p 5000:5000  --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
 ```
