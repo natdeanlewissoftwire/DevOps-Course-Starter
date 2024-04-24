@@ -98,7 +98,13 @@ Then run the following command from the control node, entering your password whe
 $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
 ```
 
-## Docker
+## Docker (with docker compose - recommended)
+To builds, (re)create, start, and attach to containers just run:
+```bash
+docker compose up
+```
+
+## Docker (manual build and run commands)
 To build a docker image, run 
 ```bash
 docker build --target production --tag todo-app:prod .

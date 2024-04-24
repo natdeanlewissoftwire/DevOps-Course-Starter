@@ -1,0 +1,22 @@
+services:
+  todo-app:
+    build:
+      context: .
+      target: production
+    image: todo-app:prod
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+
+  todo-app-dev:
+    build:
+      context: .
+      target: development
+    image: todo-app:dev
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./todo_app:/todo_app
