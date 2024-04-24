@@ -101,10 +101,21 @@ $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.i
 ## Docker
 To build a docker image, run 
 ```bash
-sudo docker build --tag todo-app .
+docker build --target production --tag todo-app:prod .
 ```
 
-To make a new container running the app (locally on port 5000), then run
+dev:
 ```bash
-docker run -p 5000:5000 --env-file .env todo-app
+docker build --target development --tag todo-app:dev .
+```
+
+To make a new container running the app (locally on port 5000 for dev, 80 for prod), then run
+prod:
+```bash
+docker run --env-file .env -p 80:80 todo-app:prod
+```
+
+dev (with hot reloading):
+```bash
+docker run --env-file .env -p 5000:5000 --mount "type=bind,source=$(pwd)/todo_app,target=/app/todo_app" todo-app:dev
 ```
