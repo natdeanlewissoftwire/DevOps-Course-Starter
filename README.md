@@ -97,3 +97,14 @@ Then run the following command from the control node, entering your password whe
 ```bash
 $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
 ```
+
+## Docker
+To build a docker image, run 
+```bash
+sudo docker build --tag todo-app .
+```
+
+To make a new container running the app (locally on port 5000), then run
+```bash
+docker run -p 5000:5000 --env-file .env todo-app
+```
