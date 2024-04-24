@@ -1,0 +1,7 @@
+__pycache__
+.github
+.pytest_cache
+.vscode
+ansible
+.env
+Dockerfile
