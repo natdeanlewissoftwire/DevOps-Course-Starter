@@ -100,7 +100,7 @@ $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.i
 
 ## Docker
 Setup (with docker compose - recommended):
-To build, (re)create, start, and attach dev, prod and (watch mode) test envs just run:
+To build, (re)create, start, and attach dev (port 5000), prod (port 80) and (watch mode) test envs just run:
 ```bash
 docker compose up
 ```
