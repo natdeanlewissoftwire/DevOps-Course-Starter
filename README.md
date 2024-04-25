@@ -100,7 +100,7 @@ $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.i
 
 ## Docker
 Setup (with docker compose - recommended):
-To builds, (re)create, start, and attach to containers just run:
+To build, (re)create, start, and attach dev, prod and (watch mode) test envs just run:
 ```bash
 docker compose up
 ```
@@ -134,18 +134,19 @@ docker compose --file docker-compose-debug.yml up
 ```
 Then use the Remote Development extension to open the debug container, and debug as normal (running the Python: Flask debug config at present, doesn't use poetry installation so you'll need to install flask and requests in the container).
 
-Running tests in Docker:
+Running specific test suites in Docker (included in docker compose up but here are the individual steps):
+
 Build test image:
 ```bash
 docker build --platform linux/amd64 --target test --tag todo_app:test .
 ```
 
-Run unit tests:
+Run unit tests (with watch):
 ```bash
-docker run --platform linux/amd64 todo_app:test todo_app/tests
+docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
 ```
 
-Run end to end tests:
+Run end to end tests (with watch):
 ```bash
-docker run --platform linux/amd64 --env-file .env todo_app:test todo_app/tests_e2e
+docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app --env-file .env todo_app:test todo_app/tests_e2e
 ```

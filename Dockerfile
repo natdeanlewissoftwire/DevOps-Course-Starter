@@ -22,5 +22,5 @@ EXPOSE 5000
 CMD ["tail", "-f", "/dev/null"]
 
 FROM base as test
-ENTRYPOINT ["poetry", "run", "pytest"]
+ENTRYPOINT ["poetry", "run", "ptw"]
 CMD ["todo_app"]
