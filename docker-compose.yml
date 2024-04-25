@@ -1,5 +1,5 @@
 services:
-  todo-app:
+  todo-app-prod:
     build:
       context: .
       target: production

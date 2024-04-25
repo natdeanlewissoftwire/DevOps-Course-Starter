@@ -4,6 +4,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 COPY . .
 RUN poetry install --no-root --without dev
+COPY ./.vscode ./.vscode
 COPY ./fixtures ./fixtures
 COPY ./todo_app ./todo_app
 
@@ -14,3 +15,7 @@ CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:80", "todo_app.app:create_a
 FROM base as development
 EXPOSE 5000
 CMD ["poetry", "run", "flask", "run", "--host", "0.0.0.0"]
+
+FROM base as debug
+EXPOSE 5000
+CMD ["tail", "-f", "/dev/null"]

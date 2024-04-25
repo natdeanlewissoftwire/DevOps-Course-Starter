@@ -98,13 +98,14 @@ Then run the following command from the control node, entering your password whe
 $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
 ```
 
-## Docker (with docker compose - recommended)
+## Docker
+Setup (with docker compose - recommended):
 To builds, (re)create, start, and attach to containers just run:
 ```bash
 docker compose up
 ```
 
-## Docker (manual build and run commands)
+Setup (manual)
 To build a docker image, run 
 ```bash
 docker build --target production --tag todo-app:prod .
@@ -125,3 +126,10 @@ dev (with hot reloading):
 ```bash
 docker run --env-file .env -p 5000:5000  --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
 ```
+
+Debug mode:
+Run
+```bash
+docker compose --file docker-compose-debug.yml up
+```
+Then use the Remote Development extension to open the debug container, and debug as normal (running the Python: Flask debug config at present, doesn't use poetry installation so you'll need to install flask and requests in the container).
