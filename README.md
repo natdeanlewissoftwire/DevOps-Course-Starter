@@ -150,3 +150,16 @@ Run end to end tests (with watch):
 ```bash
 docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app --env-file .env todo_app:test todo_app/tests_e2e
 ```
+
+## Architecture Diagrams
+
+The project uses Structurizr Lite to make architecture diagrams, start it with the following commands, replacing PATH with the path to the structurizr data directory in this project:
+
+```bash
+docker pull structurizr/lite
+docker run -it --rm -p 8080:8080 -v PATH:/usr/local/structurizr structurizr/lite
+```
+
+The diagram defined by workspace.dsl will then be rendered at http://localhost:8080
+
+Each separate view in workspace.dsl is automatically saved as a thumbnail image in structurizr/.structurizr/images/
