@@ -163,3 +163,6 @@ docker run -it --rm -p 8080:8080 -v PATH:/usr/local/structurizr structurizr/lite
 The diagram defined by workspace.dsl will then be rendered at http://localhost:8080
 
 Each separate view in workspace.dsl is automatically saved as a thumbnail image in structurizr/.structurizr/images/
+
+To view a code diagram for a given file, install the Dependency Graph Viewer VSCode extension then right click on the file and select "View Dependency Graph. Here's a snippet of what it should look like:
+![alt text](example_dependency_graph_snippet.png)
