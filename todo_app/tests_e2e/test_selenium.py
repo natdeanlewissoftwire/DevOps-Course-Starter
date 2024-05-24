@@ -5,6 +5,7 @@ from threading import Thread
 from todo_app import app
 from todo_app.data.trello_items import make_request
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
     
 @pytest.fixture(scope='module')
 def app_with_temp_board():
@@ -36,7 +37,9 @@ def delete_trello_board(board_id):
 
 @pytest.fixture(scope="module")
 def driver():
-    with webdriver.Firefox() as driver:
+    opts = Options()
+    opts.add_argument("--headless")
+    with webdriver.Firefox(options=opts) as driver:
         yield driver
 
 def test_task_journey(driver, app_with_temp_board):

@@ -1,0 +1,48 @@
+services:
+  todo-app-prod:
+    build:
+      context: .
+      target: production
+    image: todo-app:prod
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+
+  todo-app-dev:
+    build:
+      context: .
+      target: development
+    image: todo-app:dev
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./todo_app:/todo_app
+
+  todo-app-tests:
+    platform: linux/amd64
+    build:
+      context: .
+      target: test
+    image: todo_app:test
+    command: todo_app/tests
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /todo_app
+  
+  todo-app-tests-e2e:
+    platform: linux/amd64
+    build:
+      context: .
+      target: test
+    image: todo_app:test
+    env_file:
+      - .env
+    command: todo_app/tests_e2e
+    volumes:
+      - type: bind
+        source: ./todo_app
+        target: /todo_app

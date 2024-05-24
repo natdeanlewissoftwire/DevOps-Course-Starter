@@ -97,3 +97,56 @@ Then run the following command from the control node, entering your password whe
 ```bash
 $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
 ```
+
+## Docker
+Setup (with docker compose - recommended):
+To build, (re)create, start, and attach dev (port 5000), prod (port 80) and (watch mode) test envs just run:
+```bash
+docker compose up
+```
+
+Setup (manual)
+To build a docker image, run 
+```bash
+docker build --target production --tag todo-app:prod .
+```
+
+dev:
+```bash
+docker build --target development --tag todo-app:dev .
+```
+
+To make a new container running the app (locally on port 5000 for dev, 80 for prod), then run
+prod:
+```bash
+docker run --env-file .env -p 80:80 todo-app:prod
+```
+
+dev (with hot reloading):
+```bash
+docker run --env-file .env -p 5000:5000  --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
+```
+
+Debug mode:
+Run
+```bash
+docker compose --file docker-compose-debug.yml up
+```
+Then use the Remote Development extension to open the debug container, and debug as normal (running the Python: Flask debug config at present, doesn't use poetry installation so you'll need to install flask and requests in the container).
+
+Running specific test suites in Docker (included in docker compose up but here are the individual steps):
+
+Build test image:
+```bash
+docker build --platform linux/amd64 --target test --tag todo_app:test .
+```
+
+Run unit tests (with watch):
+```bash
+docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
+```
+
+Run end to end tests (with watch):
+```bash
+docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app --env-file .env todo_app:test todo_app/tests_e2e
+```

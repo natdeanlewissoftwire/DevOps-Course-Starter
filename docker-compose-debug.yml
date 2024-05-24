@@ -1,0 +1,12 @@
+services:
+  todo-app-debug:
+    build:
+      context: .
+      target: debug
+    image: todo-app:debug
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./todo_app:/todo_app
