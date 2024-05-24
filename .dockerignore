@@ -1,6 +1,6 @@
-__pycache__
+**/__pycache__
 .github
-.pytest_cache
+**/.pytest_cache
 .venv
 ansible
 .env
