@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: docker build --target test --tag todo-app:test .
-    - run: docker run --platform linux/amd64 todo-app:test todo_app/tests
+    - run: docker build --target test --tag todo_app:test .
+    - run: docker run --platform linux/amd64 todo_app:test todo_app/tests
