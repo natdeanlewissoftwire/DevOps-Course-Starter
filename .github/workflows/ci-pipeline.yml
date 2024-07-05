@@ -15,3 +15,14 @@ jobs:
     - run: docker build --target test --tag todo_app:test .
     - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
     - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app -e TRELLO_API_KEY=${{ secrets.TRELLO_API_KEY }} -e TRELLO_API_TOKEN=${{ secrets.TRELLO_API_TOKEN }} -e ID_ORGANIZATION=${{ secrets.ID_ORGANIZATION }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} todo_app:test todo_app/tests_e2e
+  notify:
+    runs-on: ubuntu-latest
+      if: always()
+      needs: build
+      steps:
+      - name: Send a Notification
+          id: notify
+          uses: thechetantalwar/slack-notify@v2
+          with:
+          slack_webhook_url: ${{ secrets.SLACK_HOOK }}
+          message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
