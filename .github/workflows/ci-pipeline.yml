@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: echo Hello World
+    - run: docker compose build todo-app-tests
+    - run: docker compose run todo-app-tests
