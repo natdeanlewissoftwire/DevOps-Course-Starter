@@ -21,8 +21,8 @@ jobs:
     needs: build
     steps:
     - name: Send a Notification
-        id: notify
-        uses: thechetantalwar/slack-notify@v2
-        with:
-        slack_webhook_url: ${{ secrets.SLACK_HOOK }}
-        message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
+      id: notify
+      uses: thechetantalwar/slack-notify@v2
+      with:
+      slack_webhook_url: ${{ secrets.SLACK_HOOK }}
+      message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
