@@ -141,12 +141,12 @@ Build test image:
 docker build --platform linux/amd64 --target test --tag todo_app:test .
 ```
 
-Run unit tests (with watch):
+Run unit tests:
 ```bash
 docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
 ```
 
-Run end to end tests (with watch):
+Run end to end tests:
 ```bash
 docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app --env-file .env todo_app:test todo_app/tests_e2e
 ```
