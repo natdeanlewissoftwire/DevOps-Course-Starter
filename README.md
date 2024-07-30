@@ -182,3 +182,11 @@ docker build --target production --platform=linux/amd64 --tag <user_name>/todo-a
 ```bash
 docker push <user_name>/todo-app:prod
 ```
+## Updating the container:
+
+Find the webhook URL (under Deployment Center on the app service’s page in the Azure portal).
+
+In a Linux/Mac shell (or Git Bash on Windows), run
+```bash
+curl -v -X POST '<webhook>'
+```
