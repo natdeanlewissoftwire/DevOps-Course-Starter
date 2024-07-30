@@ -4,7 +4,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 RUN apt-get update && apt-get install -y firefox-esr curl
 COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-root --without dev
+RUN poetry config virtualenvs.create false --local && poetry install
 COPY ./.vscode ./.vscode
 COPY ./fixtures ./fixtures
 COPY ./todo_app ./todo_app

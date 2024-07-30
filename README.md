@@ -166,3 +166,19 @@ Each separate view in workspace.dsl is automatically saved as a thumbnail image 
 
 To view a code diagram for a given file, install the Dependency Graph Viewer VSCode extension then right click on the file and select "View Dependency Graph. Here's a snippet of what it should look like:
 ![alt text](example_dependency_graph_snippet.png)
+
+## Put production container image on Docker Hub
+
+Steps: 
+    - Log into DockerHub locally, with
+```bash
+docker login
+```
+    - Build the image, with 
+```bash
+docker build --target production --platform=linux/amd64 --tag <user_name>/todo-app:prod .
+```
+    - Push the image, with
+```bash
+docker push <user_name>/todo-app:prod
+```
