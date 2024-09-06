@@ -34,3 +34,10 @@ jobs:
   #       uses: snyk/actions/python@master
   #       env:
   #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  push-to-docker-hub:
+    name: Push to Docker Hub
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/exercise-9'
+    needs: build
+    steps:
+      - run: echo Publishing!
