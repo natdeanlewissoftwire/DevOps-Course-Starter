@@ -190,3 +190,7 @@ In a Linux/Mac shell (or Git Bash on Windows), run
 ```bash
 curl -v -X POST '<webhook>'
 ```
+
+## Web addresses:
+Example docker image: hub.docker.com/r/natdeanlewissoftwire/todo-app/tags
+Live site: wicrosofttodo.azurewebsites.net
