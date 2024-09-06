@@ -51,3 +51,6 @@ jobs:
       
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:${{ github.sha }}
+
+      - name: Update the container
+        run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
