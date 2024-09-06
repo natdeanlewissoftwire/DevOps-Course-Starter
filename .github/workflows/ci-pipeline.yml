@@ -52,6 +52,9 @@ jobs:
         
       - name: List Files in Current Directory
         run: ls -la
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
         
       - name: Build Docker Image
         run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:${{ github.sha }} .
