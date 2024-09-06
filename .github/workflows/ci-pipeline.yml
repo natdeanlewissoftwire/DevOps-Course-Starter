@@ -46,10 +46,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-      - name: print dir
-        run: ls
-
+          
+      - name: Print Working Directory
+        run: pwd
+        
+      - name: List Files in Current Directory
+        run: ls -la
+        
       - name: Build Docker Image
         run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:${{ github.sha }} .
       
