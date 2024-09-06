@@ -37,7 +37,7 @@ jobs:
   push-to-docker-hub:
     name: Push to Docker Hub
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/exercise-9'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     steps:
       -
