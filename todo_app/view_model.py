@@ -8,8 +8,8 @@ class ViewModel:
     
     @property
     def incomplete_items(self):
-        return [item for item in self.items if item.status == 'To Do']
+        return [item for item in self.items if item['completed'] == False]
     
     @property
     def completed_items(self):
-        return [item for item in self.items if item.status == 'Done']
+        return [item for item in self.items if item['completed'] == True]

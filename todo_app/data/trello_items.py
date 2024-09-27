@@ -25,10 +25,22 @@ def get_items():
 #     response_json = make_request("GET", endpoint, {'cards': 'open'})
 #     return [Item.from_trello_card(card, list) for list in response_json for card in list['cards']]
 
+# def add_item(title):
+#     endpoint = 'cards'
+#     params = {'idList': os.getenv('TRELLO_INCOMPLETE_LIST_ID'), 'name': title}
+#     make_request("POST", endpoint, params)
+
 def add_item(title):
-    endpoint = 'cards'
-    params = {'idList': os.getenv('TRELLO_INCOMPLETE_LIST_ID'), 'name': title}
-    make_request("POST", endpoint, params)
+    db = connect_to_mongo()
+    cards_collection = db['cards']
+
+    item = {
+        'name': title,
+        'completed': False, 
+    }
+
+    result = cards_collection.insert_one(item)
+    return result.inserted_id
 
 def update_name(card_id, title):
     endpoint = f'cards/{card_id}'
