@@ -1,5 +1,11 @@
+from pymongo import MongoClient
 import requests, os, urllib.parse
 from todo_app.item import Item
+
+def connect_to_mongo():
+    mongo_uri = os.getenv('MONGODB_CONNECTION_STRING')
+    client = MongoClient(mongo_uri)
+    return client[os.getenv('MONGODB_DATABASE_NAME')]
 
 def make_request(method, endpoint, params=None):
     url = urllib.parse.urljoin('https://api.trello.com/1/', endpoint)
@@ -10,9 +16,14 @@ def make_request(method, endpoint, params=None):
     return response.json()
 
 def get_items():
-    endpoint = f'boards/{os.getenv("TRELLO_BOARD_ID")}/lists'
-    response_json = make_request("GET", endpoint, {'cards': 'open'})
-    return [Item.from_trello_card(card, list) for list in response_json for card in list['cards']]
+    db = connect_to_mongo()
+    cards_collection = db['cards']
+    return list(cards_collection.find())
+
+# def get_items():
+#     endpoint = f'boards/{os.getenv("TRELLO_BOARD_ID")}/lists'
+#     response_json = make_request("GET", endpoint, {'cards': 'open'})
+#     return [Item.from_trello_card(card, list) for list in response_json for card in list['cards']]
 
 def add_item(title):
     endpoint = 'cards'
