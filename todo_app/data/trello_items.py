@@ -82,7 +82,12 @@ def update_status(card_id, status):
         {'$set': {'status': new_status}}
     )
 
+# def delete_item(card_id):
+#     endpoint = f'cards/{card_id}'
+#     make_request("DELETE", endpoint)
 
 def delete_item(card_id):
-    endpoint = f'cards/{card_id}'
-    make_request("DELETE", endpoint)
+    db = connect_to_mongo()
+    cards_collection = db['cards']
+
+    cards_collection.delete_one({'_id': card_id})
