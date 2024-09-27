@@ -36,26 +36,52 @@ def add_item(title):
 
     item = {
         'name': title,
-        'completed': False, 
+        'status': 'incomplete', 
     }
 
     result = cards_collection.insert_one(item)
     return result.inserted_id
 
-def update_name(card_id, title):
-    endpoint = f'cards/{card_id}'
-    params = {'name': title}
-    make_request("PUT", endpoint, params)
+# def update_name(card_id, title):
+#     endpoint = f'cards/{card_id}'
+#     params = {'name': title}
+#     make_request("PUT", endpoint, params)
 
-def update_status(card_id, current_status):
-    endpoint = f'cards/{card_id}'
-    match current_status:
-        case "completed":
-            list_id = os.getenv('TRELLO_INCOMPLETE_LIST_ID')
-        case "incomplete":
-            list_id = os.getenv('TRELLO_COMPLETED_LIST_ID')
-    params = {'idList': list_id}
-    make_request("PUT", endpoint, params)
+def update_name(card_id, title):
+    db = connect_to_mongo()
+    cards_collection = db['cards']
+
+    result = cards_collection.update_one(
+        {'_id': card_id},
+        {'$set': {'name': title}}
+    )
+
+    return result.modified_count 
+
+# def update_status(card_id, current_status):
+#     endpoint = f'cards/{card_id}'
+#     match current_status:
+#         case "completed":
+#             list_id = os.getenv('TRELLO_INCOMPLETE_LIST_ID')
+#         case "incomplete":
+#             list_id = os.getenv('TRELLO_COMPLETED_LIST_ID')
+#     params = {'idList': list_id}
+#     make_request("PUT", endpoint, params)
+
+def update_status(card_id, status):
+    db = connect_to_mongo()
+    cards_collection = db['cards']
+    match status:
+        case 'incomplete':
+            new_status = 'completed'
+        case 'completed':
+            new_status = 'incomplete'       
+    
+    cards_collection.update_one(
+        {'_id': card_id},
+        {'$set': {'status': new_status}}
+    )
+
 
 def delete_item(card_id):
     endpoint = f'cards/{card_id}'
