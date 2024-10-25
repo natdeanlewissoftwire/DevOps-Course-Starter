@@ -14,7 +14,8 @@ def create_app(environ=None, start_response=None):
 
     @login_manager.unauthorized_handler
     def unauthenticated():
-        return redirect(f'https://github.com/login/oauth/authorize?client_id={os.getenv('OAUTH_CLIENT_ID')}')
+        client_id=os.getenv('OAUTH_CLIENT_ID')
+        return redirect(f'https://github.com/login/oauth/authorize?client_id={client_id}')
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -28,7 +29,12 @@ def create_app(environ=None, start_response=None):
         access_token_headers = {
             'Accept': 'application/json'
         }
-        access_token_response = requests.post(f'https://github.com/login/oauth/access_token?client_id={os.getenv('OAUTH_CLIENT_ID')}&client_secret={os.getenv('OAUTH_CLIENT_SECRET')}&code={code}', headers=access_token_headers).json()
+        params = {
+            'client_id': os.getenv('OAUTH_CLIENT_ID'),
+            'client_secret': os.getenv('OAUTH_CLIENT_SECRET'),
+            'code': code,
+        }
+        access_token_response = requests.post('https://github.com/login/oauth/access_token', params=params, headers=access_token_headers).json()
         access_token = access_token_response['access_token']
 
         user_headers = {
