@@ -179,6 +179,9 @@ In a Linux/Mac shell (or Git Bash on Windows), run
 curl -v -X POST '<webhook>'
 ```
 
+## Encryption
+Data encryption is in place at rest and in transit thanks to CosmosDB.
+
 ## Web addresses:
-Example docker image: hub.docker.com/r/natdeanlewissoftwire/todo-app/tags
-Live site: wicrosofttodo.azurewebsites.net
+[Example docker image](hub.docker.com/r/natdeanlewissoftwire/todo-app/tags)
+[Live site](wicrosofttodo.azurewebsites.net)
