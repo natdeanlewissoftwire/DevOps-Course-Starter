@@ -1,10 +1,14 @@
 from pymongo import MongoClient
 import os
+client = None
 
 def connect_to_mongo():
-    mongo_uri = os.getenv('MONGODB_CONNECTION_STRING')
-    client = MongoClient(mongo_uri)
+    global client
+    if client is None:
+        mongo_uri = os.getenv('MONGODB_CONNECTION_STRING')
+        client = MongoClient(mongo_uri)
     return client[os.getenv('MONGODB_DATABASE_NAME')]
+        
 
 def get_items():
     db = connect_to_mongo()
