@@ -1,14 +1,13 @@
 from todo_app.view_model import ViewModel
-from todo_app.item import Item
 
 def test_view_model_incomplete_items_property():
     incomplete_items = [
-        Item(1, 'to do item 1', 'To Do'),
-        Item(2, 'to do item 2', 'To Do')
+        {'_id': 1, 'name': 'to do item 1', 'status': 'incomplete'},
+        {'_id': 2, 'name': 'to do item 2', 'status': 'incomplete'},
     ]
     completed_items = [
-        Item(3, 'done item 1', 'Done'),
-        Item(4, 'done item 2', 'Done'),
+        {'_id': 3, 'name': 'done item 1', 'status': 'completed'},
+        {'_id': 4, 'name': 'done item 2', 'status': 'completed'},
     ]
     items = incomplete_items + completed_items
     view_model = ViewModel(items)
@@ -17,13 +16,13 @@ def test_view_model_incomplete_items_property():
 
 def test_view_model_completed_items_property():
     incomplete_items = [
-        Item(1, 'to do item 1', 'To Do'),
-        Item(2, 'to do item 2', 'To Do')
+        {'_id': 1, 'name': 'to do item 1', 'status': 'incomplete'},
+        {'_id': 2, 'name': 'to do item 2', 'status': 'incomplete'},
     ]
     completed_items = [
-        Item(3, 'done item 1', 'Done'),
-        Item(4, 'done item 2', 'Done'),
-    ]
+        {'_id': 3, 'name': 'done item 1', 'status': 'completed'},
+        {'_id': 4, 'name': 'done item 2', 'status': 'completed'},
+    ]    
     items = incomplete_items + completed_items
     view_model = ViewModel(items)
 
