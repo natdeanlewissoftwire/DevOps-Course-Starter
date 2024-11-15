@@ -45,11 +45,13 @@ Save your MongoDB connection string and database name in .env
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
+
 ```bash
 $ poetry run flask run
 ```
 
 You should see output similar to the following:
+
 ```bash
  * Serving Flask app 'todo_app/app'
  * Debug mode: on
@@ -60,81 +62,101 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: 113-666-066
 ```
+
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 ## Local testing
+
 To run the tests, run the following in a terminal:
+
 ```bash
 $ poetry run pytest
 ```
 
 To run an individual test file/test, specify its path as a pytest argument, e.g.:
+
 ```bash
 $ poetry run pytest todo_app/tests/TEST_FILE_NAME.py::TEST_FUNCTION_NAME
 ```
+
 Integration and unit tests are in todo_app/tests, end-to-end tests are in todo_app/tests_e2e
 
 ## Ansible
-To provision a VM, first ensure .env.j2, ansible-inventory.ini, ansible-playbook.yaml and todoapp.service are all on the control node. Populate .env.j2 with your environment variables on the control node and encrypt the file with 
+
+To provision a VM, first ensure .env.j2, ansible-inventory.ini, ansible-playbook.yaml and todoapp.service are all on the control node. Populate .env.j2 with your environment variables on the control node and encrypt the file with
+
 ```bash
 $ ansible-vault encrypt .env.j2
 ```
+
 Save the password this requires you to create somewhere secure for later use.
 
 Then run the following command from the control node, entering your password when prompted:
+
 ```bash
 $ ansible-playbook ansible-playbook.yaml --ask-vault-pass -i ansible-inventory.ini
 ```
 
 ## Docker
+
 Setup (with docker compose - recommended):
 To build, (re)create, start, and attach dev (port 5000), prod (port 80) and (watch mode) test envs just run:
+
 ```bash
 docker compose up
 ```
 
 Setup (manual)
-To build a docker image, run 
+To build a docker image, run
+
 ```bash
 docker build --target production --tag todo-app:prod .
 ```
 
 dev:
+
 ```bash
 docker build --target development --tag todo-app:dev .
 ```
 
 To make a new container running the app (locally on port 5000 for dev, 80 for prod), then run
 prod:
+
 ```bash
 docker run --env-file .env -p 80:80 todo-app:prod
 ```
 
 dev (with hot reloading):
+
 ```bash
 docker run --env-file .env -p 5000:5000  --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo-app:dev
 ```
 
 Debug mode:
 Run
+
 ```bash
 docker compose --file docker-compose-debug.yml up
 ```
+
 Then use the Remote Development extension to open the debug container, and debug as normal (running the Python: Flask debug config at present, doesn't use poetry installation so you'll need to install flask and requests in the container).
 
 Running specific test suites in Docker (included in docker compose up but here are the individual steps):
 
 Build test image:
+
 ```bash
 docker build --platform linux/amd64 --target test --tag todo_app:test .
 ```
 
 Run unit tests:
+
 ```bash
 docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
 ```
 
 Run end to end tests:
+
 ```bash
 docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app --env-file .env todo_app:test todo_app/tests_e2e
 ```
@@ -157,31 +179,39 @@ To view a code diagram for a given file, install the Dependency Graph Viewer VSC
 
 ## Put production container image on Docker Hub
 
-Steps: 
-    - Log into DockerHub locally, with
+Steps: - Log into DockerHub locally, with
+
 ```bash
 docker login
 ```
-    - Build the image, with 
+
+    - Build the image, with
+
 ```bash
 docker build --target production --platform=linux/amd64 --tag <user_name>/todo-app:prod .
 ```
+
     - Push the image, with
+
 ```bash
 docker push <user_name>/todo-app:prod
 ```
+
 ## Updating the container:
 
 Find the webhook URL (under Deployment Center on the app service’s page in the Azure portal).
 
 In a Linux/Mac shell (or Git Bash on Windows), run
+
 ```bash
 curl -v -X POST '<webhook>'
 ```
 
 ## Encryption
-Data encryption is in place at rest and in transit thanks to CosmosDB.
+
+Data encryption is in place at rest thanks to CosmosDB and in transit thanks to CosmosDB and HTTPS.
 
 ## Web addresses:
+
 [Example docker image](hub.docker.com/r/natdeanlewissoftwire/todo-app/tags)
 [Live site](wicrosofttodo.azurewebsites.net)
