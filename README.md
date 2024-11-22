@@ -215,6 +215,10 @@ Data encryption is in place at rest thanks to CosmosDB and in transit thanks to 
 
 When running terraform, make a terraform.tfvars file with env vars in to avoid having to pass them in on the command line
 
+You can still pass the prefix on the command line, like:
+
+terraform plan -var 'prefix=test'
+
 ## Web addresses:
 
 [Example docker image](hub.docker.com/r/natdeanlewissoftwire/todo-app/tags)

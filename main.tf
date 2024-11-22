@@ -25,7 +25,7 @@ resource "azurerm_service_plan" "main" {
 }
 
 resource "azurerm_linux_web_app" "main" {
-  name                = "WicrosoftToDoTerraform"
+  name                = "${var.prefix}-WicrosoftToDoTerraform"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   service_plan_id     = azurerm_service_plan.main.id
@@ -48,7 +48,7 @@ resource "azurerm_linux_web_app" "main" {
 }
 
 resource "azurerm_cosmosdb_account" "db" {
-  name                = "wicrosoft-to-do-cosmos-db-account-terraform"
+  name                = "${var.prefix}-wicrosoft-to-do-cosmos-db-account-terraform"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   offer_type          = "Standard"
@@ -93,7 +93,7 @@ resource "azurerm_cosmosdb_account" "db" {
 }
 
 resource "azurerm_cosmosdb_mongo_database" "db" {
-  name                = "cosmos-db-wicrosoft-to-do-terraform"
+  name                = "${var.prefix}-cosmos-db-wicrosoft-to-do-terraform"
   resource_group_name = azurerm_cosmosdb_account.db.resource_group_name
   account_name        = azurerm_cosmosdb_account.db.name
   lifecycle { prevent_destroy = true }
