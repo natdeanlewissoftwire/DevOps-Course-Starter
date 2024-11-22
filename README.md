@@ -211,6 +211,10 @@ curl -v -X POST '<webhook>'
 
 Data encryption is in place at rest thanks to CosmosDB and in transit thanks to CosmosDB and HTTPS.
 
+## Terraform
+
+When running terraform, make a terraform.tfvars file with env vars in to avoid having to pass them in on the command line
+
 ## Web addresses:
 
 [Example docker image](hub.docker.com/r/natdeanlewissoftwire/todo-app/tags)
