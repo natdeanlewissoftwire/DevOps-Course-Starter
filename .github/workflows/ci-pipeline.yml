@@ -75,4 +75,9 @@ jobs:
         run: terraform apply -var 'prefix=test' -var 'OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }}' -var 'OAUTH_CLIENT_SECRET=${{ secrets.OAUTH_CLIENT_SECRET }}' --auto-approve
 
       - name: Update the container
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: url -dH -X POST "$(terraform output -raw webhook_url)"
