@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name = "cohort32-33_NatDea_ProjectExercise"
+    resource_group_name  = "cohort32-33_NatDea_ProjectExercise"
     storage_account_name = "wicrosoftstorageaccount"
     container_name       = "wicrosoftcontainer"
     key                  = "terraform.tfstate"
