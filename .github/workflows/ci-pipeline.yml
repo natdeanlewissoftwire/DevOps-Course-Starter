@@ -39,21 +39,20 @@ jobs:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     steps:
-      # -
-      #   name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # - name: Build Docker Image
-      #   run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest .
+      - name: Build Docker Image
+        run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest .
 
-      # - name: Push Docker Image
-      #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
 
       - name: Login to Azure CLI
         run: az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }}
@@ -68,7 +67,12 @@ jobs:
         run: terraform init
 
       - name: Apply terraform
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: terraform apply -var 'prefix=prod' -var 'OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }}' -var 'OAUTH_CLIENT_SECRET=${{ secrets.OAUTH_CLIENT_SECRET }}'
 
-      # - name: Update the container
-      #   run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
+      - name: Update the container
+        run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
