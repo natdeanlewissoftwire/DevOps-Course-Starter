@@ -56,7 +56,7 @@ jobs:
       #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
 
       - name: Initalise terraform
-        run: ls
+        run: pwd
 
       # - name: Update the container
       #   run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
