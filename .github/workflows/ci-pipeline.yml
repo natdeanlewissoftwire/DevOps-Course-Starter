@@ -54,6 +54,14 @@ jobs:
 
       # - name: Push Docker Image
       #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
+      
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Initalise terraform
         run: terraform init
