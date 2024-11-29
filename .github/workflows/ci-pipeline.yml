@@ -35,6 +35,11 @@ jobs:
   #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   push-to-docker-hub:
     name: Push to Docker Hub
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     runs-on: ubuntu-latest
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
@@ -54,10 +59,10 @@ jobs:
 
       # - name: Push Docker Image
       #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
-      
+
       - name: Login to Azure CLI
         run: az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }}
-      
+
       - name: Initalise terraform
         run: terraform init
 
