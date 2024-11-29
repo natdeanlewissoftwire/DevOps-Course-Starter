@@ -2,7 +2,7 @@ name: Continuous Integration
 on:
   push:
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
 
   pull_request:
 
@@ -11,20 +11,20 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - run: docker build --target test --tag todo_app:test .
-    - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
+      - uses: actions/checkout@v4
+      - run: docker build --target test --tag todo_app:test .
+      - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
   notify:
     runs-on: ubuntu-latest
     if: always()
     needs: build
     steps:
-    - name: Send a Notification
-      id: notify
-      uses: thechetantalwar/slack-notify@v2
-      with:
-        slack_webhook_url: ${{ secrets.SLACK_HOOK }}
-        message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
+      - name: Send a Notification
+        id: notify
+        uses: thechetantalwar/slack-notify@v2
+        with:
+          slack_webhook_url: ${{ secrets.SLACK_HOOK }}
+          message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
   # security:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -51,12 +51,12 @@ jobs:
 
       # - name: Build Docker Image
       #   run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest .
-      
+
       # - name: Push Docker Image
       #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
 
       - name: Initalise terraform
-        run: terraform init
+        run: ls
 
       # - name: Update the container
       #   run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
