@@ -64,8 +64,11 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  
+
         run: terraform init
+
+      - name: Apply terraform
+        run: terraform apply -var 'prefix=prod' -var 'OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }}' -var 'OAUTH_CLIENT_SECRET=${{ secrets.OAUTH_CLIENT_SECRET }}'
 
       # - name: Update the container
       #   run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'

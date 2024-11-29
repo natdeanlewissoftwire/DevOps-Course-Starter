@@ -48,8 +48,6 @@ resource "azurerm_linux_web_app" "main" {
     "SECRET_KEY"                = "secret-key"
     "MONGODB_CONNECTION_STRING" = azurerm_cosmosdb_account.db.primary_mongodb_connection_string
     "MONGODB_DATABASE_NAME"     = azurerm_cosmosdb_mongo_database.db.name
-    "OAUTH_CLIENT_ID"           = var.OAUTH_CLIENT_ID
-    "OAUTH_CLIENT_SECRET"       = var.OAUTH_CLIENT_SECRET
   }
 
 }
