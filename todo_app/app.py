@@ -7,13 +7,24 @@ from todo_app.data.mongodb_items import get_items, add_item, update_name, update
 from todo_app.user import User
 from todo_app.view_model import ViewModel
 import logging
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
 logger = logging.getLogger(__name__)
 
 def create_app(environ=None, start_response=None):
-    logging.basicConfig(filename='wicrosoft-to-do.log', format='%(asctime)s %(levelname)s %(name)s %(message)s')
+    logging.basicConfig(filename='wicrosoft-to-do.log', format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
     app = Flask(__name__)
     app.config.from_object(Config())
     app.logger.setLevel(getattr(logging, app.config['LOG_LEVEL'], logging.DEBUG))
+
+    if app.config['LOGGLY_TOKEN'] is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
+        handler.setFormatter(
+            Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+        )
+        app.logger.addHandler(handler)
+
     login_manager = LoginManager()
 
     @login_manager.unauthorized_handler

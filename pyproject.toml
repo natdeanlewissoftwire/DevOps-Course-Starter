@@ -17,6 +17,7 @@ pytest-watch = "^4.2.0"
 pymongo = "^4.9.1"
 mongomock = "^4.2.0.post1"
 flask-login = "^0.6.3"
+loggly-python-handler = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 
