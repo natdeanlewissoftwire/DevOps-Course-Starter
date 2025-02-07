@@ -41,6 +41,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 ## Environment variables
 
 Save your MongoDB connection string and database name in .env
+LOG_LEVEL should be set to ERROR on production to prevent lower severity production logs being logged.
 
 ## Running the App
 
