@@ -10,9 +10,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 def create_app(environ=None, start_response=None):
-    logging.basicConfig(filename='wicrosoft-to-do.log', level=logging.INFO, format='%(asctime)s %(message)s')
+    logging.basicConfig(filename='wicrosoft-to-do.log', format='%(asctime)s %(levelname)s %(name)s %(message)s')
     app = Flask(__name__)
     app.config.from_object(Config())
+    app.logger.setLevel(getattr(logging, app.config['LOG_LEVEL'], logging.DEBUG))
     login_manager = LoginManager()
 
     @login_manager.unauthorized_handler
