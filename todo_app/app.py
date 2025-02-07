@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def create_app(environ=None, start_response=None):
-    logging.basicConfig(filename='wicrosoft-to-do.log', level=logging.INFO)
+    logging.basicConfig(filename='wicrosoft-to-do.log', level=logging.INFO, format='%(asctime)s %(message)s')
     app = Flask(__name__)
     app.config.from_object(Config())
     login_manager = LoginManager()
