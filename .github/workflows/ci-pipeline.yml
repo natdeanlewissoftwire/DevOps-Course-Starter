@@ -2,7 +2,9 @@ name: Continuous Integration
 on:
   push:
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
+    branches:
+      - main
 
   pull_request:
 
@@ -11,20 +13,20 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - run: docker build --target test --tag todo_app:test .
-    - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
+      - uses: actions/checkout@v4
+      - run: docker build --target test --tag todo_app:test .
+      - run: docker run --platform linux/amd64 --mount type=bind,source="$(pwd)"/todo_app,target=/todo_app todo_app:test todo_app/tests
   notify:
     runs-on: ubuntu-latest
     if: always()
     needs: build
     steps:
-    - name: Send a Notification
-      id: notify
-      uses: thechetantalwar/slack-notify@v2
-      with:
-        slack_webhook_url: ${{ secrets.SLACK_HOOK }}
-        message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
+      - name: Send a Notification
+        id: notify
+        uses: thechetantalwar/slack-notify@v2
+        with:
+          slack_webhook_url: ${{ secrets.SLACK_HOOK }}
+          message: "Github Action Build Number ${{ github.run_number }} Completed for ${{ github.repository }} and the outcome is  ${{ needs.build.result }}."
   # security:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -33,14 +35,13 @@ jobs:
   #       uses: snyk/actions/python@master
   #       env:
   #         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  push-to-docker-hub:
-    name: Push to Docker Hub
+  push-to-docker-hub-and-deploy:
+    name: Push to Docker Hub and deploy
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     steps:
-      -
-        name: Login to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
@@ -51,9 +52,34 @@ jobs:
 
       - name: Build Docker Image
         run: docker build --target production --platform=linux/amd64 --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest .
-      
+
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/todo-app:latest
 
+      - name: Login to Azure CLI
+        run: az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }}
+
+      - name: Initalise terraform
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+        run: terraform init
+
+      - name: Apply terraform
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        run: terraform apply -var 'prefix=test' -var 'OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }}' -var 'OAUTH_CLIENT_SECRET=${{ secrets.OAUTH_CLIENT_SECRET }}' --auto-approve
+
       - name: Update the container
-        run: curl -v -X POST '${{ secrets.WEBHOOK_URL }}'
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        run: curl -dH -X POST "$(terraform output -raw webhook_url)"
