@@ -18,6 +18,7 @@ def create_app(environ=None, start_response=None):
     @login_manager.unauthorized_handler
     def unauthenticated():
         client_id=os.getenv('OAUTH_CLIENT_ID')
+        app.logger.info("Redirecting user to authenticate")
         return redirect(f'https://github.com/login/oauth/authorize?client_id={client_id}')
 
     @login_manager.user_loader
@@ -37,6 +38,7 @@ def create_app(environ=None, start_response=None):
             'client_secret': os.getenv('OAUTH_CLIENT_SECRET'),
             'code': code,
         }
+        
         access_token_response = requests.post('https://github.com/login/oauth/access_token', params=params, headers=access_token_headers).json()
         access_token = access_token_response['access_token']
 
@@ -47,7 +49,11 @@ def create_app(environ=None, start_response=None):
         user_response = requests.get('https://api.github.com/user', headers=user_headers).json()
         user_id = user_response['id']
         user = User(user_id)
-        login_user(user)
+        if login_user(user):
+            app.logger.info("User login successful")
+        else:
+            app.logger.info("User login unsuccessful")
+
         return redirect(url_for('index'))
 
     @app.route('/')
