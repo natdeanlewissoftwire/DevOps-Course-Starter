@@ -6,15 +6,31 @@ from todo_app.flask_config import Config
 from todo_app.data.mongodb_items import get_items, add_item, update_name, update_status, delete_item
 from todo_app.user import User
 from todo_app.view_model import ViewModel
+import logging
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
+logger = logging.getLogger(__name__)
 
 def create_app(environ=None, start_response=None):
+    logging.basicConfig(filename='wicrosoft-to-do.log', format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
     app = Flask(__name__)
     app.config.from_object(Config())
+    app.logger.setLevel(getattr(logging, app.config['LOG_LEVEL'], logging.DEBUG))
+
+    if app.config['LOGGLY_TOKEN'] is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
+        handler.setFormatter(
+            Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+        )
+        app.logger.addHandler(handler)
+
     login_manager = LoginManager()
 
     @login_manager.unauthorized_handler
     def unauthenticated():
         client_id=os.getenv('OAUTH_CLIENT_ID')
+        app.logger.info("Redirecting user to authenticate")
         return redirect(f'https://github.com/login/oauth/authorize?client_id={client_id}')
 
     @login_manager.user_loader
@@ -34,6 +50,7 @@ def create_app(environ=None, start_response=None):
             'client_secret': os.getenv('OAUTH_CLIENT_SECRET'),
             'code': code,
         }
+        
         access_token_response = requests.post('https://github.com/login/oauth/access_token', params=params, headers=access_token_headers).json()
         access_token = access_token_response['access_token']
 
@@ -44,7 +61,11 @@ def create_app(environ=None, start_response=None):
         user_response = requests.get('https://api.github.com/user', headers=user_headers).json()
         user_id = user_response['id']
         user = User(user_id)
-        login_user(user)
+        if login_user(user):
+            app.logger.info("User login successful")
+        else:
+            app.logger.info("User login unsuccessful")
+
         return redirect(url_for('index'))
 
     @app.route('/')
@@ -59,6 +80,7 @@ def create_app(environ=None, start_response=None):
     def add():
         title = request.form.get('title')
         if title:   
+            app.logger.info("Adding item with title %s", title)
             add_item(title)
         return redirect(url_for('index'))
 
@@ -68,6 +90,7 @@ def create_app(environ=None, start_response=None):
         item_id = request.form.get('item_id')
         status = request.form.get('status')
         if item_id and status:
+            app.logger.info("Changing status of item %s", item_id)
             update_status(item_id, status)
         return redirect(url_for('index'))
 
@@ -77,6 +100,7 @@ def create_app(environ=None, start_response=None):
         title = request.form.get('title')
         item_id = request.form.get('item_id')
         if title and item_id:
+            app.logger.info("Editing item %s", item_id)
             update_name(item_id, title)
         return redirect(url_for('index'))
 
@@ -85,6 +109,7 @@ def create_app(environ=None, start_response=None):
     def delete():
         item_id = request.form.get('item_id')
         if item_id:
+            app.logger.info("Deleting item %s", item_id)
             delete_item(item_id)
         return redirect(url_for('index'))
     
